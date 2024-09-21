@@ -42,7 +42,7 @@ public class Login_Frame extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     
-    public void checkConnection(){
+    public void Connection(){
         try {
             Class.forName("com.mysql.jdbc.Driver");
             config = DriverManager.getConnection(baseUrl, dbuserName, password);
@@ -125,6 +125,7 @@ public class Login_Frame extends javax.swing.JFrame {
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel8.setText("Sign Up");
 
+        showHide.setBackground(new java.awt.Color(255, 255, 255));
         showHide.setFont(new java.awt.Font("Segoe UI Semilight", 0, 14)); // NOI18N
         showHide.setText("Show Password");
         showHide.addActionListener(new java.awt.event.ActionListener() {
@@ -225,7 +226,7 @@ public class Login_Frame extends javax.swing.JFrame {
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
         // TODO add your handling code here:
         try {
-            checkConnection();
+            Connection();
             pst = config.prepareStatement("select user_name, password, role from users WHERE user_name = ?");
             String user_name = userName1.getText();
             pst.setString(1, user_name); 
@@ -239,35 +240,35 @@ public class Login_Frame extends javax.swing.JFrame {
                 userCheck(user_Name, user_Password, role);
             }
          
-        } catch (Exception ex){
-            JOptionPane.showMessageDialog(this, ex);
+        } catch (Exception erorr){
+            JOptionPane.showMessageDialog(this, erorr);
         }
     }//GEN-LAST:event_loginButtonActionPerformed
 
     private void userCheck(String user_Name, String user_Password, String role){
         if (role.equals("user")) {
-        if (user_Name.equals(userName1.getText())) {
-            if (user_Password.equals(Password.getText())) {  
-                JOptionPane.showMessageDialog(this, "Login successful as User.");
+            if (user_Name.equals(userName1.getText())) {
+                if (user_Password.equals(Password.getText())) {  
+                    JOptionPane.showMessageDialog(this, "Login successful as User.");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Password does not match for User.");
+                }
             } else {
-                JOptionPane.showMessageDialog(this, "Password does not match for User.");
+                JOptionPane.showMessageDialog(this, "Username does not match for User.");
+            }
+        } else if (role.equals("admin")) {
+            if (user_Name.equals(userName1.getText())) {
+                if (user_Password.equals(Password.getText())) {  
+                    JOptionPane.showMessageDialog(this, "Login successful as Admin.");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Password does not match for Admin.");
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Username does not match for Admin.");
             }
         } else {
-            JOptionPane.showMessageDialog(this, "Username does not match for User.");
+            JOptionPane.showMessageDialog(this, "Invalid role specified.");
         }
-    } else if (role.equals("admin")) {
-        if (user_Name.equals(userName1.getText())) {
-            if (user_Password.equals(Password.getText())) {  
-                JOptionPane.showMessageDialog(this, "Login successful as Admin.");
-            } else {
-                JOptionPane.showMessageDialog(this, "Password does not match for Admin.");
-            }
-        } else {
-            JOptionPane.showMessageDialog(this, "Username does not match for Admin.");
-        }
-    } else {
-        JOptionPane.showMessageDialog(this, "Invalid role specified.");
-    }
     }
     /**
      * @param args the command line arguments
