@@ -57,8 +57,8 @@ public class Login_Frame extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+        userN_text = new javax.swing.JLabel();
+        userP_text = new javax.swing.JLabel();
         Password = new javax.swing.JPasswordField();
         loginButton = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
@@ -96,11 +96,11 @@ public class Login_Frame extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Algerian", 0, 48)); // NOI18N
         jLabel1.setText("Welcome");
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI Semilight", 1, 14)); // NOI18N
-        jLabel3.setText("User Name");
+        userN_text.setFont(new java.awt.Font("Segoe UI Semilight", 1, 14)); // NOI18N
+        userN_text.setText("User Name");
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI Semilight", 1, 14)); // NOI18N
-        jLabel4.setText("Password");
+        userP_text.setFont(new java.awt.Font("Segoe UI Semilight", 1, 14)); // NOI18N
+        userP_text.setText("Password");
 
         Password.setHorizontalAlignment(javax.swing.JTextField.LEFT);
 
@@ -143,10 +143,6 @@ public class Login_Frame extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 332, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 128, Short.MAX_VALUE)
-                        .addComponent(jLabel1)
-                        .addGap(118, 118, 118))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -159,16 +155,20 @@ public class Login_Frame extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(53, 53, 53)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel3)
                                     .addComponent(Password)
-                                    .addComponent(loginButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(loginButton, javax.swing.GroupLayout.DEFAULT_SIZE, 359, Short.MAX_VALUE)
                                     .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel4)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 179, Short.MAX_VALUE)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                        .addComponent(userP_text, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGap(18, 18, 18)
                                         .addComponent(showHide))
-                                    .addComponent(userName1))))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                    .addComponent(userName1)
+                                    .addComponent(userN_text, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 128, Short.MAX_VALUE)
+                        .addComponent(jLabel1)
+                        .addGap(118, 118, 118))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -177,12 +177,12 @@ public class Login_Frame extends javax.swing.JFrame {
                 .addGap(26, 26, 26)
                 .addComponent(jLabel1)
                 .addGap(23, 23, 23)
-                .addComponent(jLabel3)
+                .addComponent(userN_text)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(userName1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
+                    .addComponent(userP_text)
                     .addComponent(showHide))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Password, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -225,6 +225,8 @@ public class Login_Frame extends javax.swing.JFrame {
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
         // TODO add your handling code here:
+        userN_text.setForeground(new java.awt.Color(0, 0, 0));
+        userP_text.setForeground(new java.awt.Color(0, 0, 0));
         try {
             Connection();
             pst = config.prepareStatement("select user_name, password, role from users WHERE user_name = ?");
@@ -232,7 +234,9 @@ public class Login_Frame extends javax.swing.JFrame {
             pst.setString(1, user_name); 
             result = pst.executeQuery();
             if (result.next() == false){
-                JOptionPane.showMessageDialog(this, "Record Not Found");
+                userN_text.setText("Incorrect User Name");
+                userP_text.setText("Password");
+                userN_text.setForeground(new java.awt.Color(255,0,51));
             }else{
                 String user_Name = result.getString("user_name");
                 String user_Password = result.getString("password");
@@ -251,23 +255,21 @@ public class Login_Frame extends javax.swing.JFrame {
                 if (user_Password.equals(Password.getText())) {  
                     JOptionPane.showMessageDialog(this, "Login successful as User.");
                 } else {
-                    JOptionPane.showMessageDialog(this, "Password does not match for User.");
+                    userN_text.setText("User Name");
+                    userP_text.setText("Incorrect Password");
+                    userP_text.setForeground(new java.awt.Color(255,0,51));
                 }
-            } else {
-                JOptionPane.showMessageDialog(this, "Username does not match for User.");
             }
         } else if (role.equals("admin")) {
             if (user_Name.equals(userName1.getText())) {
                 if (user_Password.equals(Password.getText())) {  
                     JOptionPane.showMessageDialog(this, "Login successful as Admin.");
                 } else {
-                    JOptionPane.showMessageDialog(this, "Password does not match for Admin.");
+                    userN_text.setText("User Name");
+                    userP_text.setText("Incorrect Password");
+                    userP_text.setForeground(new java.awt.Color(255,0,51));
                 }
-            } else {
-                JOptionPane.showMessageDialog(this, "Username does not match for Admin.");
             }
-        } else {
-            JOptionPane.showMessageDialog(this, "Invalid role specified.");
         }
     }
     /**
@@ -309,8 +311,6 @@ public class Login_Frame extends javax.swing.JFrame {
     private javax.swing.JPasswordField Password;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -319,6 +319,8 @@ public class Login_Frame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JButton loginButton;
     private javax.swing.JCheckBox showHide;
+    private javax.swing.JLabel userN_text;
     private javax.swing.JTextField userName1;
+    private javax.swing.JLabel userP_text;
     // End of variables declaration//GEN-END:variables
 }
