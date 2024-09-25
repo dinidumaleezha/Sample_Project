@@ -41,8 +41,8 @@ public class Sample_Project {
             login.setVisible(true);
         
         } catch (Exception ex){
-            Network_Erorr Erorr = new Network_Erorr();
-            Erorr.setVisible(true);
+            Network_Error error = new Network_Error();
+            error.setVisible(true);
         }
         
     }

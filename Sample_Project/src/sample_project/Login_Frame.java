@@ -19,6 +19,7 @@ public class Login_Frame extends javax.swing.JFrame {
     private static final String password = "";
     private static final String baseUrl = "jdbc:mysql://localhost:3306/sample_project";
     
+    
     private Connection config = null;
     private PreparedStatement pst = null;
     private ResultSet result = null;
@@ -54,7 +55,7 @@ public class Login_Frame extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         showHide = new javax.swing.JCheckBox();
-        userName1 = new javax.swing.JTextField();
+        userEmail = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -62,7 +63,7 @@ public class Login_Frame extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(0, 128, 255));
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sample_project/login-img.png"))); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sample_project/login1.png"))); // NOI18N
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -112,6 +113,11 @@ public class Login_Frame extends javax.swing.JFrame {
         jLabel8.setForeground(new java.awt.Color(0, 128, 255));
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel8.setText("Sign Up");
+        jLabel8.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel8MouseClicked(evt);
+            }
+        });
 
         showHide.setBackground(new java.awt.Color(255, 255, 255));
         showHide.setFont(new java.awt.Font("Segoe UI Semilight", 0, 14)); // NOI18N
@@ -122,7 +128,7 @@ public class Login_Frame extends javax.swing.JFrame {
             }
         });
 
-        userName1.setCaretColor(new java.awt.Color(255, 255, 255));
+        userEmail.setCaretColor(new java.awt.Color(255, 255, 255));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -150,7 +156,7 @@ public class Login_Frame extends javax.swing.JFrame {
                                         .addComponent(userP_text, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addGap(18, 18, 18)
                                         .addComponent(showHide))
-                                    .addComponent(userName1)
+                                    .addComponent(userEmail)
                                     .addComponent(userN_text, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
@@ -167,7 +173,7 @@ public class Login_Frame extends javax.swing.JFrame {
                 .addGap(23, 23, 23)
                 .addComponent(userN_text)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(userName1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(userEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(userP_text)
@@ -217,19 +223,20 @@ public class Login_Frame extends javax.swing.JFrame {
         userP_text.setForeground(new java.awt.Color(0, 0, 0));
         try {
             Connection();
-            pst = config.prepareStatement("select user_name, password, role from users WHERE user_name = ?");
-            String user_name = userName1.getText();
-            pst.setString(1, user_name); 
+            pst = config.prepareStatement("select email, password, role from users WHERE email = ?");
+            String email = userEmail.getText();
+            pst.setString(1, email); 
             result = pst.executeQuery();
             if (result.next() == false){
                 userN_text.setText("Incorrect User Name");
                 userP_text.setText("Password");
                 userN_text.setForeground(new java.awt.Color(255,0,51));
             }else{
-                String user_Name = result.getString("user_name");
+                String Email = result.getString("email");
                 String user_Password = result.getString("password");
                 String role = result.getString("role");
-                userCheck(user_Name, user_Password, role);
+                
+                userCheck(Email, user_Password, role);
             }
          
         } catch (Exception erorr){
@@ -237,9 +244,16 @@ public class Login_Frame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_loginButtonActionPerformed
 
-    private void userCheck(String user_Name, String user_Password, String role){
+    private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
+        // TODO add your handling code here:
+        Register_Frame1 register = new Register_Frame1();
+        this.dispose();
+        register.setVisible(true);
+    }//GEN-LAST:event_jLabel8MouseClicked
+
+    private void userCheck(String Email, String user_Password, String role){
         if (role.equals("user")) {
-            if (user_Name.equals(userName1.getText())) {
+            if (Email.equals(userEmail.getText())) {
                 if (user_Password.equals(Password.getText())) {  
                     JOptionPane.showMessageDialog(this, "Login successful as User.");
                 } else {
@@ -249,7 +263,7 @@ public class Login_Frame extends javax.swing.JFrame {
                 }
             }
         } else if (role.equals("admin")) {
-            if (user_Name.equals(userName1.getText())) {
+            if (Email.equals(userEmail.getText())) {
                 if (user_Password.equals(Password.getText())) {  
                     JOptionPane.showMessageDialog(this, "Login successful as Admin.");
                 } else {
@@ -307,8 +321,8 @@ public class Login_Frame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JButton loginButton;
     private javax.swing.JCheckBox showHide;
+    private javax.swing.JTextField userEmail;
     private javax.swing.JLabel userN_text;
-    private javax.swing.JTextField userName1;
     private javax.swing.JLabel userP_text;
     // End of variables declaration//GEN-END:variables
 }

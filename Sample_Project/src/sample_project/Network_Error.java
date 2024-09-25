@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import javax.swing.JOptionPane;
 
-public class Network_Erorr extends javax.swing.JFrame {
+public class Network_Error extends javax.swing.JFrame {
 
     private static final String dbuserName = "root";
     private static final String password = "";
@@ -18,7 +18,7 @@ public class Network_Erorr extends javax.swing.JFrame {
     private ResultSet result = null;
     private int number1;
     
-    public Network_Erorr() {
+    public Network_Error() {
         initComponents();
     }
     
@@ -29,13 +29,13 @@ public class Network_Erorr extends javax.swing.JFrame {
             pst = config.prepareStatement("select * from users");
             result = pst.executeQuery();
             ResultSetMetaData setData = result.getMetaData();
-            number1 = setData.getColumnCount();
-           
-            Network_Erorr Erorr = new Network_Erorr();
-            Erorr.setVisible(true);
+            number1 = setData.getColumnCount();     
             
-            Login_Frame login = new Login_Frame();
-            login.setVisible(true);
+            if (result.next()) {
+                Login_Frame login = new Login_Frame();
+                this.dispose();
+                login.setVisible(true);
+            }
 
         } catch (Exception ex){}
     }
@@ -121,7 +121,7 @@ public class Network_Erorr extends javax.swing.JFrame {
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Network_Erorr().setVisible(true);
+                new Network_Error().setVisible(true);
             }
         });
     }
