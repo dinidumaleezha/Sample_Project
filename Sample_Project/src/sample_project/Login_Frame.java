@@ -255,7 +255,9 @@ public class Login_Frame extends javax.swing.JFrame {
         if (role.equals("user")) {
             if (Email.equals(userEmail.getText())) {
                 if (user_Password.equals(Password.getText())) {  
-                    JOptionPane.showMessageDialog(this, "Login successful as User.");
+                    View_Details details = new View_Details();
+                    this.dispose();
+                    details.setVisible(true);
                 } else {
                     userN_text.setText("User Name");
                     userP_text.setText("Incorrect Password");
@@ -265,7 +267,9 @@ public class Login_Frame extends javax.swing.JFrame {
         } else if (role.equals("admin")) {
             if (Email.equals(userEmail.getText())) {
                 if (user_Password.equals(Password.getText())) {  
-                    JOptionPane.showMessageDialog(this, "Login successful as Admin.");
+                    Add_Product_Frame addProduct = new Add_Product_Frame();
+                    this.dispose();
+                    addProduct.setVisible(true);
                 } else {
                     userN_text.setText("User Name");
                     userP_text.setText("Incorrect Password");
